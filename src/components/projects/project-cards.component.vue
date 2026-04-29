@@ -19,7 +19,14 @@
         <cards-component v-for="(project, index) in paginatedProjects" :key="project.id || index" :project="project"/>
 
         <div class="add-project">
-          <Button label="+" class="addBut" @click="showAddProjectDialog" aria-label="Add new project"/>
+          <Button
+              label="Add project"
+              icon="pi pi-plus"
+              iconPos="left"
+              class="addBut corporate-cta"
+              @click="showAddProjectDialog"
+              aria-label="Add new project"
+          />
         </div>
 
         <Dialog
@@ -240,17 +247,29 @@ const createProject = async () => {
 
 .addBut {
   width: 100%;
-  height: 12rem;
-  object-fit: cover;
-  background-color: rgba(178, 34, 34, 0.08);
+  min-height: 12rem;
+  padding: 1.4rem 1.2rem;
+  gap: 0.6rem;
+  background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
   color: var(--brand-500);
-  font-size: 6vh;
-  font-weight: lighter;
-  transition: background 0.2s, color 0.2s;
+  border: 1px solid rgba(178, 34, 34, 0.18) !important;
+  border-radius: 18px !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.3px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease, background 0.22s ease;
 }
 .addBut:focus {
   outline: 2px solid var(--brand-500);
   background: var(--brand-50);
+}
+.addBut:hover,
+.addBut:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(178, 34, 34, 0.35) !important;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.1);
+  background: linear-gradient(180deg, #ffffff 0%, #f7f7f7 100%);
 }
 .error-list {
   color: #b91c1c;
@@ -265,11 +284,9 @@ const createProject = async () => {
   .add-project {
     width: 100%;
   }
-}
-.title {
-  font-family: 'Lora', serif;
-  color: var(--brand-500);
-  font-weight: 600 !important;
+  .addBut {
+    min-height: 5.5rem;
+  }
 }
 .subtitle {
   font-family: 'Lora', serif;
@@ -277,7 +294,7 @@ const createProject = async () => {
   color: var(--brand-500);
   font-weight: bold;
 }
-.modern-dialog .p-dialog-content {
+:deep(.modern-dialog .p-dialog-content) {
   background: #f8fafc;
   border-radius: 18px;
   box-shadow: 0 8px 32px 0 rgba(2,81,61,0.18);
