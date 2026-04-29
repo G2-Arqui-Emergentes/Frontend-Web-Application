@@ -122,8 +122,8 @@ export default {
 <template>
   <div class="setup-container h-screen flex">
     <div class="logo-container flex">
-      <img src="../../assets/ManageWise_logo.png" alt="logo" style="width: 100px; height: auto;" />
-      <span class="font-bold text-4xl">ManageWise</span>
+      <img src="../../assets/taskmaster-logo.png" alt="logo" style="width: 100px; height: auto;" />
+      <span class="font-bold text-4xl">TaskMaster</span>
     </div>
     <form class="card flex gap-3" @submit.prevent="onSubmitSetup">
 
@@ -172,6 +172,8 @@ export default {
 
 <style scoped>
 .setup-container {
+  --brand-500: #b22222;
+  --brand-600: #8f1c1c;
   background-color: #F9F5EF;
   box-sizing: border-box;
   flex-direction: column;
@@ -219,14 +221,14 @@ export default {
 .button {
   width: 40%;
   align-self: center;
-  background-color: #FA8224;
+  background-color: var(--brand-500);
   border: none;
   border-radius: 30px;
   cursor: pointer;
 }
 
 .button:hover {
-  background-color: #d16716ff;
+  background-color: var(--brand-600);
 }
 
 
