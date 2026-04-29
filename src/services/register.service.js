@@ -29,9 +29,9 @@ export class RegisterService {
     const errors = {};
     let fieldsRequiredStep2 = [];
 
-    if (form.role === "director") {
+    if (form.role === "ROLE_LEADER") {
       fieldsRequiredStep2 = ["companyName", "companyEmail", "companyCountry"];
-    } else if (form.role === "team") {
+    } else if (form.role === "ROLE_MEMBER") {
       fieldsRequiredStep2 = ["teamRegisterCode"];
     }
 
@@ -41,7 +41,7 @@ export class RegisterService {
     }
 
     if (
-        form.role === "director" &&
+        form.role === "ROLE_LEADER" &&
         form.companyEmail &&
         !this.isValidEmail(form.companyEmail)
     ) {
@@ -64,7 +64,7 @@ export class RegisterService {
    */
   async signUpUser(form) {
     // Mapear rol a número
-    const roleMapping = { director: 0, team: 1 };
+    const roleMapping = { ROLE_LEADER: 0, ROLE_MEMBER: 1 };
     const role = roleMapping[form.role] ?? 0;
 
     // Normalizar payload (trim y defaults)

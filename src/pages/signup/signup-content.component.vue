@@ -83,7 +83,7 @@ export default {
         return;
       }
 
-      if (this.form.role === 'director') {
+      if (this.form.role === 'ROLE_LEADER') {
 
         localStorage.setItem('temp_register_data', JSON.stringify(this.form));
         this.$router.push('/subscription');
@@ -174,11 +174,11 @@ export default {
           </div>
 
           <div class="radio-button-container">
-            <input class="radio-input" type="radio" id="director" name="type_user" value="director" v-model="form.role" />
-            <label class="radio-label" for="director">Director</label>
+            <input class="radio-input" type="radio" id="leader" name="type_user" value="ROLE_LEADER" v-model="form.role" />
+            <label class="radio-label" for="leader">Leader</label>
 
-            <input class="radio-input" type="radio" id="team" name="type_user" value="team" v-model="form.role" />
-            <label class="radio-label" for="team">Team</label>
+            <input class="radio-input" type="radio" id="member" name="type_user" value="ROLE_MEMBER" v-model="form.role" />
+            <label class="radio-label" for="member">Member</label>
           </div>
           <p v-if="errors.role" class="error-message">{{ errors.role }}</p>
         </div>
@@ -187,14 +187,14 @@ export default {
         <div v-if="currentStep === 2" class="step-two-container">
           <h2 class="step-two-title">Almost there!</h2>
 
-          <div v-if="form.role === 'team'" class="step-two-content">
+          <div v-if="form.role === 'ROLE_MEMBER'" class="step-two-content">
             <div class="input-container">
               <input type="text" placeholder="Team Register Code" class="input-field p-3" v-model="form.teamRegisterCode" />
               <p v-if="errors.teamRegisterCode" class="error-message">{{ errors.teamRegisterCode }}</p>
             </div>
           </div>
 
-          <div v-if="form.role === 'director'" class="step-two-content">
+          <div v-if="form.role === 'ROLE_LEADER'" class="step-two-content">
             <div class="input-container">
               <input type="text" placeholder="Company Name" class="input-field p-3" v-model="form.companyName" />
               <p v-if="errors.companyName" class="error-message">{{ errors.companyName }}</p>
@@ -226,7 +226,7 @@ export default {
           <button type="button" v-if="currentStep === 2" class="button p-3" style="color: #fff;"
                   @click="handleStep2Action" :disabled="isSubmitting">
             <span v-if="isSubmitting">Processing...</span>
-            <span v-else>{{ form.role === 'director' ? 'Choose Plan' : 'Sign Up' }}</span>
+            <span v-else>{{ form.role === 'ROLE_LEADER' ? 'Choose Plan' : 'Sign Up' }}</span>
           </button>
         </div>
       </form>
