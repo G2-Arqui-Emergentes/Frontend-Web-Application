@@ -130,8 +130,8 @@ export default {
 <template>
   <div class="signup-container min-h-screen flex">
     <div class="logo-container flex">
-      <img src="../../assets/ManageWise_logo.png" alt="logo" style="width: 100px; height: auto;" />
-      <span class="font-bold text-4xl">ManageWise</span>
+      <img src="../../assets/taskmaster-logo.png" alt="logo" style="width: 100px; height: auto;" />
+      <span class="font-bold text-4xl">TaskMaster</span>
     </div>
     <div class="card flex">
       <span class="title font-normal" style="font-size:1rem">Transform your fundraising efforts with precision
@@ -233,7 +233,7 @@ export default {
     </div>
 
     <h3 class="card-footer">Already have an account?
-      <router-link to="/login" class="link" style="font-weight: 600">Log in</router-link>
+      <router-link to="/login" class="link brand-link" style="font-weight: 600">Log in</router-link>
     </h3>
 
     <pv-dialog :style="{margin: '0 10px'}"
@@ -254,6 +254,13 @@ export default {
 </template>
 
 <style scoped>
+.signup-container {
+  --brand-500: #b22222;
+  --brand-600: #8f1c1c;
+  --brand-700: #6f1616;
+  --brand-100: #f8e1e1;
+  --brand-50: #fdf5f5;
+}
 .error-message {
   color: red;
   font-size: 0.8rem;
@@ -263,7 +270,7 @@ export default {
 }
 
 .signup-container {
-  background-color: #F9F5EF;
+  background-color: var(--brand-50);
   box-sizing: border-box;
   flex-direction: column;
   align-items: center;
@@ -326,18 +333,18 @@ export default {
 .button {
   width: 40%;
   align-self: center;
-  background-color: #FA8224;
+  background-color: var(--brand-500);
   border: none;
   border-radius: 30px;
   cursor: pointer;
 }
 
 .button:hover {
-  background-color: #d16716ff;
+  background-color: var(--brand-600);
 }
 
 .button:disabled {
-  background-color: #fab57a;
+  background-color: var(--brand-100);
   cursor: not-allowed;
 }
 
@@ -345,8 +352,15 @@ export default {
   width: 90%;
   align-self: center;
   text-align: right;
-  color: #FA8224;
   text-decoration: none;
+}
+
+.brand-link {
+  color: var(--brand-500);
+}
+
+.brand-link:hover {
+  color: var(--brand-600);
 }
 
 .card-footer {
@@ -381,7 +395,7 @@ export default {
 }
 
 .radio-input:checked {
-  border: 8px solid #FA8224;
+  border: 8px solid var(--brand-500);
 }
 
 .password-field,

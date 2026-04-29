@@ -109,14 +109,12 @@ export default {
         this.$store.commit("setUser", res.data.id);
         this.isRegistered = true;
         this.$router.push("/home");
-        return;
       } else {
         // Si el backend rechazó el captcha o credenciales
         const msg = res?.response?.data || "Login failed";
         this.message_error = typeof msg === "string" ? msg : "Login failed";
         this.showDialog = true;
         await this.resetAndRerenderCaptcha(); // <--
-        return;
       }
     },
 
@@ -150,12 +148,12 @@ export default {
 <template>
   <div class="login-container h-screen flex">
     <div class="logo-container flex">
-      <img src="../../assets/ManageWise_logo.png" alt="logo" style="width: 100px; height: auto;" />
-      <span class="font-bold text-3xl">ManageWise</span>
+      <img src="../../assets/taskmaster-logo.png" alt="logo" style="width: 100px; height: auto;" />
+      <span class="font-bold text-3xl">TaskMaster</span>
     </div>
 
     <div class="card flex">
-      <span class="title font-normal text-xl" style="color: #FA8224;">Welcome!</span>
+      <span class="title brand-accent font-normal text-xl">Welcome!</span>
 
       <form class="flex flex-column gap-3" @submit.prevent="handleSubmitLogin">
         <input
@@ -181,7 +179,7 @@ export default {
           ></i>
         </div>
 
-        <a class="link" href="#" style="color: #FA8224; font-style: italic; font-size: 0.8rem;">
+        <a class="link brand-link" href="#" style="font-style: italic; font-size: 0.8rem;">
           Forgot your password?
         </a>
 
@@ -196,8 +194,8 @@ export default {
     </div>
 
     <h3 class="card-footer">
-      New to ManageWise?
-      <router-link to="/register" class="link" style="font-weight: 600">Join now</router-link>
+      New to TaskMaster?
+      <router-link to="/register" class="link brand-link" style="font-weight: 600">Join now</router-link>
     </h3>
 
     <pv-dialog :style="{ margin: '0 10px' }" :visible.sync="showDialog" :modal="true" :closable="false">
@@ -213,7 +211,12 @@ export default {
 
 <style scoped>
 .login-container {
-  background-color: #F9F5EF;
+  --brand-500: #b22222;
+  --brand-600: #8f1c1c;
+  --brand-700: #6f1616;
+  --brand-100: #f8e1e1;
+  --brand-50: #fdf5f5;
+  background-color: var(--brand-50);
   box-sizing: border-box;
   flex-direction: column;
   align-items: center;
@@ -239,6 +242,9 @@ export default {
   flex-direction: column;
 }
 .title { margin-bottom: 40px; }
+.brand-accent {
+  color: var(--brand-500);
+}
 .input-field {
   align-self: center;
   width: 90%;
@@ -250,18 +256,23 @@ export default {
 .button {
   width: 40%;
   align-self: center;
-  background-color: #FA8224;
+  background-color: var(--brand-500);
   border: none;
   border-radius: 30px;
   cursor: pointer;
 }
-.button:hover { background-color: #d16716ff; }
+.button:hover { background-color: var(--brand-600); }
 .link {
   width: 90%;
   align-self: center;
   text-align: right;
-  color: #FA8224;
   text-decoration: none;
+}
+.brand-link {
+  color: var(--brand-500);
+}
+.brand-link:hover {
+  color: var(--brand-600);
 }
 .card-footer { font-weight: normal; font-size: 1rem; }
 .password-field {

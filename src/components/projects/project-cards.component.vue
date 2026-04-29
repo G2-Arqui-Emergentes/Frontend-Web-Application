@@ -211,11 +211,15 @@ const createProject = async () => {
 <style scoped>
 .title-projects {
   font-family: 'Lora', serif;
-  color: #FA8224;
+  color: #b22222;
   font-weight: 600 !important;
   letter-spacing: 1.05px;
 }
 .project-cards {
+  --brand-500: #b22222;
+  --brand-600: #8f1c1c;
+  --brand-100: rgba(178, 34, 34, 0.1);
+  --brand-50: rgba(178, 34, 34, 0.03);
   display: flex;
   flex-wrap: wrap;
   height: auto;
@@ -238,15 +242,15 @@ const createProject = async () => {
   width: 100%;
   height: 12rem;
   object-fit: cover;
-  background-color: rgba(236, 188, 132, 0.4);
-  color: #FA8224;
+  background-color: rgba(178, 34, 34, 0.08);
+  color: var(--brand-500);
   font-size: 6vh;
   font-weight: lighter;
   transition: background 0.2s, color 0.2s;
 }
 .addBut:focus {
-  outline: 2px solid #FA8224;
-  background: #e6f4f1;
+  outline: 2px solid var(--brand-500);
+  background: var(--brand-50);
 }
 .error-list {
   color: #b91c1c;
@@ -264,13 +268,13 @@ const createProject = async () => {
 }
 .title {
   font-family: 'Lora', serif;
-  color: #FA8224;
+  color: var(--brand-500);
   font-weight: 600 !important;
 }
 .subtitle {
   font-family: 'Lora', serif;
   font-size: 2vh;
-  color: #FA8224;
+  color: var(--brand-500);
   font-weight: bold;
 }
 .modern-dialog .p-dialog-content {
@@ -287,7 +291,7 @@ const createProject = async () => {
 }
 .dialog-title {
   font-family: 'Lora', serif;
-  color: #FA8224;
+  color: var(--brand-500);
   font-size: 2.1rem;
   font-weight: 700;
   margin-bottom: 0.2rem;
@@ -306,7 +310,7 @@ const createProject = async () => {
 }
 .form-label {
   font-weight: 600;
-  color: #FA8224;
+  color: var(--brand-500);
   margin-bottom: 0.1rem;
   font-size: 1rem;
 }
@@ -320,8 +324,8 @@ const createProject = async () => {
   outline: none;
 }
 .form-input:focus {
-  border: 1.5px solid #FA8224;
-  box-shadow: 0 0 0 2px #f7cc9cff;
+  border: 1.5px solid var(--brand-500);
+  box-shadow: 0 0 0 2px var(--brand-100);
 }
 .textarea {
   min-height: 90px;
@@ -333,7 +337,7 @@ const createProject = async () => {
   margin-top: 1.2rem;
 }
 .add-btn {
-  background-color: #FA8224 !important;
+  background-color: var(--brand-500) !important;
   color: #fff !important;
   border-radius: 10px !important;
   font-size: 1.1rem !important;
@@ -343,7 +347,7 @@ const createProject = async () => {
   transition: background 0.18s, box-shadow 0.18s;
 }
 .add-btn:hover, .add-btn:focus {
-  background: #d16716ff !important;
+  background: var(--brand-600) !important;
   box-shadow: 0 4px 16px 0 rgba(2,81,61,0.13);
 }
 </style>
