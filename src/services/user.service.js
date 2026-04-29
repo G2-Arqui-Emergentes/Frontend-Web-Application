@@ -14,35 +14,17 @@ export class UserService {
     async signUpUser(user) {
         try {
             const signUpPayload = {
-                ...user,
-                Username: user.email
-            };
-            console.log('Sending user object to IAM (Step 1):', signUpPayload);
-            const iamResponse = await this.http.post('users/sign-up', signUpPayload);
-
-            const profilePayload = {
-                FirstName: user.firstName,
-                LastName: user.lastName,
-                Age: user.age,
-                Email: user.email,
-                Phone: user.phone,
-                Password: user.password,
-                ProfileImg: user.profileImg,
-                Role: user.role,
-                CompanyName: user.companyName,
-                CompanyEmail: user.companyEmail,
-                CompanyCountry: user.companyCountry,
-                TeamRegisterCode: user.teamRegisterCode,
-                Occupation: user.occupation || "",
-                Bio: user.bio || ""
+                email: (user.email ?? "").toString().trim(),
+                password: (user.password ?? "").toString(),
+                roles: Array.isArray(user.roles)
+                    ? user.roles
+                    : [user.role].filter(Boolean),
+                name: (user.name ?? user.firstName ?? "").toString().trim(),
+                lastName: (user.lastName ?? "").toString().trim()
             };
 
-            console.log('Sending profile details to Profiles (Step 2):', profilePayload);
-
-            await this.http.post('profiles/api/Profiles', profilePayload);
-
-            console.log('Registration success. IAM Response:', iamResponse);
-            return iamResponse;
+            console.log('Sending sign-up payload:', signUpPayload);
+            return await this.http.post('/api/v1/authentication/sign-up', signUpPayload);
         } catch(e) {
             if (e.response) {
                 console.error('Backend Error:', e.response.data);
@@ -51,25 +33,24 @@ export class UserService {
         }
     }
 
-    async signInUser(username, password, captchaToken) {
+    async signInUser(email, password) {
         try {
             const signInPayload = {
-                Username: username,
-                password: password,
-                captchaToken: captchaToken,
-                email: username
+                email: email,
+                password: password
             };
 
-            console.log('Sending sign-in payload to IAM:', signInPayload);
+            console.log('Sending sign-in payload:', signInPayload);
 
-            const response = await this.http.post('authentication/sign-in', signInPayload);
+            const response = await this.http.post('/api/v1/authentication/sign-in', signInPayload);
 
-            if (response.data && response.data.username) {
-                console.log("Login exitoso en IAM. Buscando perfil completo...");
+            if (response.data && (response.data.email || response.data.username)) {
+                const identifier = response.data.email || response.data.username;
+                console.log("Login exitoso. Buscando usuario completo...");
                 try {
-                    await this.getUserByEmail(response.data.username);
+                    await this.getUserByEmail(identifier);
                 } catch (profileError) {
-                    console.error("No se pudo cargar el perfil del usuario:", profileError);
+                    console.error("No se pudo cargar el usuario:", profileError);
                 }
             }
 
@@ -87,9 +68,9 @@ export class UserService {
     async getUserByEmail(email) {
         const headers = this.getHeadersAuthorization();
         try {
-            const response = await this.http.get(`profiles/api/Profiles/email/${email}`, { headers });
+            const response = await this.http.get(`/api/v1/users/email/${encodeURIComponent(email)}`, { headers });
 
-            console.log('Perfil recuperado por Email:', response.data);
+            console.log('Usuario recuperado por email:', response.data);
 
             this.setUser(response.data);
 
@@ -104,23 +85,10 @@ export class UserService {
         const headers = this.getHeadersAuthorization();
         console.log('user id to retrieve', id);
         try {
-            const response = await this.http.get(`profiles/api/Profiles/${id}`, { headers });
+            const response = await this.http.get(`/api/v1/users/${id}`, { headers });
 
-            if (response.data) {
-                response.data.companyName = response.data.companyName
-                    || response.data.CompanyName
-                    || response.data.company_name
-                    || "";
-
-                response.data.companyEmail = response.data.companyEmail
-                    || response.data.CompanyEmail
-                    || "";
-
-                response.data.occupation = response.data.occupation || response.data.Occupation || "";
-                response.data.bio = response.data.bio || response.data.Bio || "";
-            }
-
-            console.log('Profile response:', response);
+            console.log('User response:', response);
+            this.setUser(response.data);
             return response;
         } catch (error) {
             if (error.response) {
@@ -135,25 +103,20 @@ export class UserService {
     async updateUser(user) {
         const headers = this.getHeadersAuthorization();
 
-        const safeName = (user.name ?? `${user.firstName ?? ''} ${user.lastName ?? ''}`).trim();
-        const parts = safeName.split(/\s+/);
-        const firstName = user.firstName ?? (parts[0] || '');
-        const lastName  = user.lastName  ?? (parts.slice(1).join(' ') || '');
-
         const userbody = {
-            userId: user.id,
-            firstName,
-            lastName,
-            age: user.age,
-            phone: user.phone,
-            email: user.email,
-            password: user.password,
-            profileImg: user.profileImg,
-            occupation: user.occupation,
-            bio: user.bio,
+            id: user.id ?? user.userId,
+            email: (user.email ?? "").toString().trim(),
+            roles: Array.isArray(user.roles)
+                ? user.roles
+                : [user.role].filter(Boolean),
+            name: (user.name ?? user.firstName ?? "").toString().trim(),
+            lastName: (user.lastName ?? "").toString().trim(),
+            imageUrl: (user.imageUrl ?? user.profileImg ?? "").toString().trim(),
+            salary: user.salary ?? 0,
+            projectIds: Array.isArray(user.projectIds) ? user.projectIds : []
         };
 
-        const resp = await this.http.put(`profiles/api/Profiles/${user.id}`, userbody, { headers });
+        const resp = await this.http.put(`/api/v1/users`, userbody, { headers });
 
         this.setUser(resp.data);
 
@@ -163,46 +126,13 @@ export class UserService {
     async getAllUsers() {
         try {
             const headers = this.getHeadersAuthorization();
-            const response = await this.http.get('users/', { headers });
-            return response;
+            return await this.http.get('/api/v1/users', { headers });
         } catch (error) {
             console.error('Error al obtener todos los usuarios:', error);
             throw error;
         }
     }
 
-    async getUsersByRole(role) {
-        try {
-            const response = await this.http.get(`users?role=${role}`);
-            return response;
-        } catch (error) {
-            console.error(`Error al obtener usuarios con el rol ${role}:`, error);
-            throw error;
-        }
-    }
-
-    async createNewUser(user) {
-        try {
-            const headers = this.getHeadersAuthorization();
-            console.log('user to create', user)
-            return await this.http.post('users/', user, { headers });
-        } catch (error) {
-            console.error('Error al crear un nuevo usuario:', error);
-            throw error;
-        }
-    }
-
-    async updateUserByEmail(email, body) {
-        const newBody = { ...body }; // Simplificado
-        try {
-            const headers = this.getHeadersAuthorization();
-            const response = await this.http.put(`users?email=${email}`, newBody, { headers });
-            return response;
-        } catch(e) {
-            console.log('Error to update user')
-            return null;
-        }
-    }
 
 
     getHeadersAuthorization() {

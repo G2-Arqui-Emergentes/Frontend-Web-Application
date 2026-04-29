@@ -6,11 +6,9 @@ export default {
   data() {
     return {
       registerService: new RegisterService(),
-      users: [],
       confirmPassword: '',
       passwordFieldType: 'password',
       confirmPasswordFieldType: 'password',
-      currentStep: 1,
       isSubmitting: false,
       showSuccessDialog: false,
       apiError: "",
@@ -18,16 +16,9 @@ export default {
       form: {
         firstName: "",
         lastName: "",
-        age: 0,
         email: "",
-        phone: "",
         password: "",
-        profileImg: "",
         role: "",
-        companyName: "",
-        companyEmail: "",
-        companyCountry: "",
-        teamRegisterCode: "",
       },
       errors: {
         email: '',
@@ -38,21 +29,12 @@ export default {
     }
   },
   methods: {
-    async getUsers() {
-    },
-
     async onSubmitRegister() {
       this.apiError = "";
       const formValidationOne = await this.registerService.validatePrimaryRegisterData(this.form, this.confirmPassword);
-      const formValidationTwo = await this.registerService.validateSecondaryRegisterData(this.form);
 
-      if(!formValidationOne.valid || !formValidationTwo.valid){
-        if(!formValidationOne.valid){
-          this.errors = formValidationOne.errors;
-          this.currentStep = 1;
-        } else {
-          this.errors = formValidationTwo.errors;
-        }
+      if(!formValidationOne.valid){
+        this.errors = formValidationOne.errors;
         return false;
       }
 
@@ -73,36 +55,6 @@ export default {
       }
     },
 
-    async handleStep2Action() {
-      this.apiError = "";
-
-      const formValidationTwo = await this.registerService.validateSecondaryRegisterData(this.form);
-
-      if(!formValidationTwo.valid){
-        this.errors = formValidationTwo.errors;
-        return;
-      }
-
-      if (this.form.role === 'ROLE_LEADER') {
-
-        localStorage.setItem('temp_register_data', JSON.stringify(this.form));
-        this.$router.push('/subscription');
-      } else {
-        await this.onSubmitRegister();
-      }
-    },
-
-    async validatePrimaryRegisterData(){
-      const formValidationOne = await this.registerService.validatePrimaryRegisterData(this.form, this.confirmPassword);
-      if(!formValidationOne.valid){
-        this.errors = formValidationOne.errors;
-        return false;
-      } else {
-        this.errors = {};
-        this.currentStep = 2;
-      }
-    },
-
     togglePasswordFieldType() {
       this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
     },
@@ -113,15 +65,6 @@ export default {
 
     goToLogin() {
       this.$router.push('/login');
-    },
-
-    nextStep() {
-      if (this.currentStep === 1) {
-        this.validatePrimaryRegisterData();
-      } else if (this.currentStep === 2) {
-        this.currentStep = 1;
-        this.errors = {};
-      }
     },
   }
 }
@@ -139,8 +82,8 @@ export default {
 
       <form @submit.prevent>
 
-        <!-- PASO 1 -->
-        <div v-if="currentStep === 1" class="flex flex-column gap-3 align-items-center">
+        <!-- FORMULARIO DE REGISTRO -->
+        <div class="flex flex-column gap-3 align-items-center">
           <div class="user-name-container">
             <div class="input-container">
               <input type="text" placeholder="First Name" class="input-field p-3" v-model="form.firstName" />
@@ -181,52 +124,16 @@ export default {
             <label class="radio-label" for="member">Member</label>
           </div>
           <p v-if="errors.role" class="error-message">{{ errors.role }}</p>
-        </div>
-
-        <!-- PASO 2 -->
-        <div v-if="currentStep === 2" class="step-two-container">
-          <h2 class="step-two-title">Almost there!</h2>
-
-          <div v-if="form.role === 'ROLE_MEMBER'" class="step-two-content">
-            <div class="input-container">
-              <input type="text" placeholder="Team Register Code" class="input-field p-3" v-model="form.teamRegisterCode" />
-              <p v-if="errors.teamRegisterCode" class="error-message">{{ errors.teamRegisterCode }}</p>
-            </div>
-          </div>
-
-          <div v-if="form.role === 'ROLE_LEADER'" class="step-two-content">
-            <div class="input-container">
-              <input type="text" placeholder="Company Name" class="input-field p-3" v-model="form.companyName" />
-              <p v-if="errors.companyName" class="error-message">{{ errors.companyName }}</p>
-            </div>
-
-            <div class="input-container">
-              <input type="email" placeholder="Company Email" class="input-field p-3" v-model="form.companyEmail" />
-              <p v-if="errors.companyEmail" class="error-message">{{ errors.companyEmail }}</p>
-            </div>
-
-            <div class="input-container">
-              <input type="text" placeholder="Company Country" class="input-field p-3" v-model="form.companyCountry" />
-              <p v-if="errors.companyCountry" class="error-message">{{ errors.companyCountry }}</p>
-            </div>
-          </div>
 
           <p v-if="apiError" class="error-message text-center mt-3">{{ apiError }}</p>
         </div>
 
-        <!-- BOTONES DE NAVEGACIÓN -->
+        <!-- BOTÓN DE REGISTRO -->
         <div class="flex flex-row gap-3 justify-content-center align-items-center mt-4">
-          <!-- Botón Return (Solo en paso 2) -->
-          <button type="button" v-if="currentStep === 2" class="button p-3" style="color: #fff;"
-                  @click="nextStep" :disabled="isSubmitting">Return</button>
-
-          <button type="button" v-if="currentStep === 1" class="button p-3" style="color: #fff;"
-                  @click="validatePrimaryRegisterData">Continue</button>
-
-          <button type="button" v-if="currentStep === 2" class="button p-3" style="color: #fff;"
-                  @click="handleStep2Action" :disabled="isSubmitting">
+          <button type="button" class="button p-3" style="color: #fff;"
+                  @click="onSubmitRegister" :disabled="isSubmitting">
             <span v-if="isSubmitting">Processing...</span>
-            <span v-else>{{ form.role === 'ROLE_LEADER' ? 'Choose Plan' : 'Sign Up' }}</span>
+            <span v-else>Sign Up</span>
           </button>
         </div>
       </form>
@@ -424,33 +331,6 @@ export default {
   font-size: 1.1rem;
 }
 
-/* ESTILOS PARA EL PASO 2 */
-.step-two-container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-}
-
-.step-two-title {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #333;
-  margin: 0;
-  text-align: center;
-}
-
-.step-two-content {
-  width: 90%;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.step-two-content .input-container {
-  width: 100%;
-}
 
 @media screen and (max-width: 500px) {
   .logo-container {
@@ -471,9 +351,6 @@ export default {
     flex-direction: column;
     width: 100%;
     gap: 1rem;
-  }
-  .step-two-content {
-    width: 100%;
   }
 }
 

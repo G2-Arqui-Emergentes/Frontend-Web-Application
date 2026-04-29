@@ -1,6 +1,5 @@
 <script>
 import { UserService } from "@/services/user.service.js";
-import { environment } from "@/environment/environment.js";
 
 export default {
   name: "login-content",
@@ -14,99 +13,32 @@ export default {
       isRegistered: false,
       showDialog: false,
       message_error: "",
-      // reCAPTCHA
-      siteKey: environment.recaptchaSiteKey,
-      captchaWidgetId: null,
-      captchaToken: "",
-      captchaKey: 0,
-
     };
   },
   methods: {
-    async resetAndRerenderCaptcha() {
-      try {
-        if (window.grecaptcha && this.captchaWidgetId !== null) {
-          window.grecaptcha.reset(this.captchaWidgetId);
-        }
-      } catch (_) { /* ignore */ }
-
-      // Fuerza re-montaje del contenedor para evitar widgets huérfanos
-      this.captchaKey += 1;
-      this.captchaToken = "";
-      this.captchaWidgetId = null;
-      await this.$nextTick();
-      await this.renderCaptcha();
-    },
-    async ensureRecaptchaReady() {
-      // si ya está listo, salir
-      if (window.grecaptcha?.render) return;
-
-      // cargar script si no existe
-      if (!document.querySelector('script[src*="recaptcha/api.js"]')) {
-        const s = document.createElement("script");
-        s.src =
-            "https://www.google.com/recaptcha/api.js?onload=__recaptchaOnload&render=explicit";
-        s.async = true;
-        s.defer = true;
-        document.head.appendChild(s);
-        await new Promise((resolve) => (window.__recaptchaOnload = resolve));
-      } else {
-        // esperar a que se inicialice
-        await new Promise((resolve) => {
-          const tick = () =>
-              window.grecaptcha?.render ? resolve() : setTimeout(tick, 50);
-          tick();
-        });
-      }
-    },
-
-    async renderCaptcha() {
-      await this.ensureRecaptchaReady();
-
-      // limpiar contenedor y renderizar explícitamente
-      if (this.$refs.captchaBox) this.$refs.captchaBox.innerHTML = "";
-      this.captchaWidgetId = window.grecaptcha.render(this.$refs.captchaBox, {
-        sitekey: this.siteKey,
-        theme: "light",
-        size: "normal",
-        callback: (token) => {
-          this.captchaToken = token;
-          console.log("captchaToken:", token);
-        },
-        "expired-callback": () => (this.captchaToken = ""), // expiró
-        "error-callback": () => (this.captchaToken = ""), // error
-      });
-    },
-
     async handleSubmitLogin() {
       this.isRegistered = false;
 
-      // 1) Asegurar token
-      if (!this.captchaToken && this.captchaWidgetId !== null && window.grecaptcha) {
-        this.captchaToken = window.grecaptcha.getResponse(this.captchaWidgetId);
-      }
-      if (!this.captchaToken) {
-        this.message_error = "Por favor verifica el CAPTCHA.";
-        this.showDialog = true;
-        await this.resetAndRerenderCaptcha(); // <--
-        return;
-      }
-
-      // 2) Intento de login
       let res;
       try {
-        res = await this.userService.signInUser(this.email, this.password, this.captchaToken);
+        res = await this.userService.signInUser(this.email, this.password);
       } catch (err) {
-        this.message_error = "No se pudo contactar al servidor.";
+        this.message_error = err?.response?.data ?? err?.message ?? "No se pudo contactar al servidor.";
         this.showDialog = true;
-        await this.resetAndRerenderCaptcha(); // <--
         return;
       }
 
-      // 3) Respuesta backend
+      // Respuesta backend
       if (res?.status === 200) {
         this.$store.commit("setToken", res.data.token);
-        this.$store.commit("setUser", res.data.id);
+        const userId = res.data?.id ?? res.data?.userId ?? res.data?.user?.id;
+
+        if (userId !== undefined && userId !== null) {
+          this.$store.commit("setUser", userId);
+        } else if (res.data?.email) {
+          await this.userService.getUserByEmail(res.data.email);
+        }
+
         this.isRegistered = true;
         this.$router.push("/home");
       } else {
@@ -129,18 +61,10 @@ export default {
     },
   },
 
-  async mounted() {
-    await this.renderCaptcha();
-
+  mounted() {
     const gtagId = import.meta.env.VITE_GTAG;
     console.log("Google Analytics in Login ID:", gtagId);
     console.log("NODE_ENV:", import.meta.env.MODE);
-  },
-
-  beforeUnmount() {
-    if (this.$refs.captchaBox) this.$refs.captchaBox.innerHTML = "";
-    this.captchaWidgetId = null;
-    this.captchaToken = "";
   },
 };
 </script>
@@ -183,9 +107,6 @@ export default {
           Forgot your password?
         </a>
 
-        <div class="recaptcha-wrapper">
-          <div :key="captchaKey" ref="captchaBox"></div>
-        </div>
 
         <button :disabled="!formValid" type="submit" class="button p-3" style="color:#fff;margin-top:30px">
           Sign in
