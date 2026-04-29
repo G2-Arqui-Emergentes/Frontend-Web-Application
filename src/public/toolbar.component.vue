@@ -77,9 +77,9 @@ export default {
       <div class=" flex flex-row align-items-center gap-4">
         <i class="pi pi-bars" @click="handleToggle" style="color: slateblue; font-size: 1.5rem; cursor: pointer"></i>
         <div class="flex flex-row align-items-center gap-3">
-          <img class="block h-2rem w-3rem" src="../assets/ManageWise_logo.png" alt="ManageWise"/>
+          <img class="block h-2rem w-3rem" src="../assets/taskmaster-logo.png" alt="TaskMaster"/>
           <div class="title-container flex flex-column justify-content-center line-height-2" style="gap: 2px">
-            <p class="title font-semibold " style="letter-spacing: 1px;">ManageWise</p>
+            <p class="title font-semibold " style="letter-spacing: 1px;">TaskMaster</p>
             <span class="text-sm capitalize" style="letter-spacing: .8px;">{{ roleLabel }}</span>
           </div>
         </div>
@@ -101,7 +101,7 @@ export default {
           <div class="flex flex-row align-items-center gap-3">
             <p class="text-sm text-green-600 font-normal">{{ user?.companyName }}</p>
             <div class="members-quantity">
-              <i class="pi pi-user mr-2" style="font-size: .8rem; color: #FA8224"></i><span class="text-sm">{{members}}</span>
+              <i class="pi pi-user mr-2 brand-accent-icon" style="font-size: .8rem"></i><span class="text-sm brand-accent-text">{{members}}</span>
             </div>
           </div>
         </div>
@@ -113,6 +113,7 @@ export default {
 <style scoped>
 
 .header {
+  --brand-500: #b22222;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
   position: sticky;
   top: 0;
@@ -133,7 +134,12 @@ export default {
 }
 
 .members-quantity span {
-  color: #FA8224;
+  color: var(--brand-500);
+}
+
+.brand-accent-icon,
+.brand-accent-text {
+  color: var(--brand-500);
 }
 .user-img, .user-name {
   cursor: pointer;

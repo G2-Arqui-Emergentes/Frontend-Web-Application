@@ -173,19 +173,21 @@ export default {
 }
 
 aside {
+  --brand-500: #b22222;
+  --brand-600: #8f1c1c;
   border-right: 2px solid #BABABA;
 }
 
 .inline-flex:hover i,
 .inline-flex:hover p {
-  color: red !important;
+  color: var(--brand-600) !important;
   transition: all 0.3s;
   transition-timing-function: ease;
 }
 
 li > p {
   letter-spacing: .5px;
-  color: #FA8224;
+  color: var(--brand-500);
 }
 
 li {
