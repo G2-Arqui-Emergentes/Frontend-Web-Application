@@ -25,32 +25,6 @@ export class RegisterService {
     return { valid: Object.keys(errors).length === 0, errors };
   }
 
-  async validateSecondaryRegisterData(form) {
-    const errors = {};
-    let fieldsRequiredStep2 = [];
-
-    if (form.role === "ROLE_LEADER") {
-      fieldsRequiredStep2 = ["companyName", "companyEmail", "companyCountry"];
-    } else if (form.role === "ROLE_MEMBER") {
-      fieldsRequiredStep2 = ["teamRegisterCode"];
-    }
-
-    for (const field of fieldsRequiredStep2) {
-      const val = (form[field] ?? "").toString().trim();
-      if (!val.length) errors[field] = `Field ${field} is required.`;
-    }
-
-    if (
-        form.role === "ROLE_LEADER" &&
-        form.companyEmail &&
-        !this.isValidEmail(form.companyEmail)
-    ) {
-      errors.email = "Please enter a valid company email address!.";
-    }
-
-    return { valid: Object.keys(errors).length === 0, errors };
-  }
-
   isValidEmail(email) {
     const emailRegex =
         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -63,24 +37,13 @@ export class RegisterService {
    * Lanza error con mensaje legible si falla.
    */
   async signUpUser(form) {
-    // Mapear rol a número
-    const roleMapping = { ROLE_LEADER: 0, ROLE_MEMBER: 1 };
-    const role = roleMapping[form.role] ?? 0;
-
-    // Normalizar payload (trim y defaults)
+    // Normalizar payload según el nuevo formato del backend
     const user = {
-      firstName: (form.firstName ?? "").toString().trim(),
+      name: (form.firstName ?? "").toString().trim(),
       lastName: (form.lastName ?? "").toString().trim(),
-      age: Number(form.age ?? 0),
       email: (form.email ?? "").toString().trim(),
-      phone: (form.phone ?? "").toString().trim(),
       password: (form.password ?? "").toString(),
-      profileImg: (form.profileImg ?? "").toString().trim(),
-      role: role,
-      companyName: (form.companyName ?? "").toString().trim(),
-      companyEmail: (form.companyEmail ?? "").toString().trim(),
-      companyCountry: (form.companyCountry ?? "").toString().trim(),
-      teamRegisterCode: (form.teamRegisterCode ?? "").toString().trim(),
+      roles: [form.role],
     };
 
     try {
