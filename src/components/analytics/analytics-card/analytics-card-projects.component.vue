@@ -197,7 +197,7 @@ export default {
 
 .title-analytics {
   font-family: 'Lora', serif;
-  color: #FA8224;
+  color: #b22222;
   font-weight: 600 !important;
   letter-spacing: 1.05px;
 }

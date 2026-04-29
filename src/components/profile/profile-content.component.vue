@@ -444,10 +444,10 @@ export default {
 }
 
 .edit-button {
-  border: 1px solid #FA8224;
+  border: 1px solid #b22222;
   background-color: transparent;
   max-width: 180px;
-  color: #FA8224;
+  color: #b22222;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
@@ -457,7 +457,7 @@ export default {
 }
 
 .edit-button:hover {
-  background-color: #FA8224;
+  background-color: #b22222;
   color: white;
 }
 

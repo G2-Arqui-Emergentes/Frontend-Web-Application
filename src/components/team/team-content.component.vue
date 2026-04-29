@@ -384,6 +384,10 @@ export default {
 }
 
 .container-cards {
+  --brand-500: #b22222;
+  --brand-600: #8f1c1c;
+  --brand-100: rgba(178, 34, 34, 0.1);
+  --brand-50: rgba(178, 34, 34, 0.03);
   flex: 1;
   padding-bottom: 80px;
 }
@@ -397,19 +401,19 @@ export default {
 }
 
 .card__wrapper.selected-card {
-  background-color: rgba(250, 130, 36, 0.1);
-  border-color: #FA8224;
+  background-color: var(--brand-100);
+  border-color: var(--brand-500);
 }
 
 .card__wrapper.selection-enabled:hover {
-  background-color: rgba(250, 130, 36, 0.03);
+  background-color: var(--brand-50);
   cursor: pointer;
 }
 
 .custom-checkbox {
   width: 20px;
   height: 20px;
-  accent-color: #FA8224;
+  accent-color: var(--brand-500);
   cursor: pointer;
 }
 
@@ -427,7 +431,7 @@ export default {
 
 /* Botones de Modo */
 .plan-meeting-btn {
-  background-color: #FA8224;
+  background-color: var(--brand-500);
   border: none;
   padding: 0.6rem 1.5rem;
   color: white;
@@ -437,7 +441,7 @@ export default {
   transition: transform 0.2s, background-color 0.2s;
 }
 .plan-meeting-btn:hover {
-  background-color: #e0721b;
+  background-color: var(--brand-600);
   transform: translateY(-2px);
 }
 
