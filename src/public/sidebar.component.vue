@@ -176,6 +176,7 @@ aside {
   --brand-500: #b22222;
   --brand-600: #8f1c1c;
   border-right: 2px solid #BABABA;
+  background-color: #f8f9fb !important;
 }
 
 .inline-flex:hover i,
@@ -187,20 +188,44 @@ aside {
 
 li > p {
   letter-spacing: .5px;
-  color: var(--brand-500);
+  color: #6b7280;
+  transition: 0.2s ease;
+}
+
+li svg {
+  color: #6b7280;
+  fill: #6b7280;
+  stroke: #6b7280;
+  transition: 0.2s ease;
 }
 
 li {
   cursor: pointer;
+  transition: all 0.2s ease;
+  border-left: 4px solid transparent;
+  margin-left: -4px;
 }
 
 .active {
-  background-color: #E6EEEC;
+  background: rgba(255, 77, 77, 0.1);
+  border-left: 4px solid #ff4d4f;
+  font-weight: 600;
+}
+
+.active > p {
+  color: #ff4d4f;
+  font-weight: 600;
+}
+
+.active svg {
+  color: #ff4d4f;
+  fill: #ff4d4f;
+  stroke: #ff4d4f;
 }
 
 li:not(.active):hover {
-  transition: all 0.2s ease;
-  background-color: #ececec;
+  background: rgba(0, 0, 0, 0.04);
+  transition: 0.2s ease;
 }
 
 aside {
@@ -210,7 +235,9 @@ aside {
   top: 0;
   width: 300px;
   z-index: 99;
-  background-color: #f8f8f8;
+  background-color: rgba(248, 249, 251, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 

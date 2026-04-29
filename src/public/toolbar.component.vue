@@ -114,10 +114,14 @@ export default {
 
 .header {
   --brand-500: #b22222;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid #eee;
   position: sticky;
   top: 0;
   z-index: 100;
+  height: 64px;
+  display: flex;
+  align-items: center;
 }
 
 .title-container {
@@ -131,6 +135,7 @@ export default {
 
 .pi-bars {
   display: none;
+  color: #ff4d4f;
 }
 
 .members-quantity span {
@@ -141,9 +146,31 @@ export default {
 .brand-accent-text {
   color: var(--brand-500);
 }
+
 .user-img, .user-name {
   cursor: pointer;
 }
+
+.user-img {
+  transition: 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(255, 77, 77, 0.2);
+}
+
+.user-name {
+  font-weight: 600;
+  color: #1f2937;
+  transition: 0.2s ease;
+}
+
+.user-name:hover {
+  color: #ff4d4f;
+}
+
 @media (max-width: 1024px) {
 
   .pi-bars {
