@@ -32,13 +32,13 @@ export default {
   <div class="subscription-container min-h-screen h-full flex flex-column align-items-center gap-5">
     <div class="subscription-box flex flex-column gap-6 py-5">
       <div class="logo-container flex">
-        <img src="../../assets/ManageWise_logo.png" alt="logo" style="width: 100px; height: auto;" />
-        <span class="font-bold text-4xl">ManageWise</span>
+        <img src="../../assets/taskmaster-logo.png" alt="logo" style="width: 100px; height: auto;" />
+        <span class="font-bold text-4xl">TaskMaster</span>
       </div>
       <div class="card flex">
 
         <div class="card-header">
-          <span class="title font-bold text-3xl" style="color: #FA8224;">S/.300.00</span>
+          <span class="title brand-accent font-bold text-3xl">S/.300.00</span>
           <p class="subtitle">/year for you & your team</p>
         </div>
 
@@ -74,7 +74,11 @@ export default {
 
 <style scoped>
 .subscription-container {
-  background-color: #F9F5EF;
+  --brand-500: #b22222;
+  --brand-600: #8f1c1c;
+  --brand-100: #f8e1e1;
+  --brand-50: #fdf5f5;
+  background-color: var(--brand-50);
   box-sizing: border-box;
   flex-direction: column;
   align-items: center;
@@ -109,6 +113,10 @@ export default {
   margin-bottom: 40px;
 }
 
+.brand-accent {
+  color: var(--brand-500);
+}
+
 .card-body {
   margin-top: 30px;
 }
@@ -120,14 +128,14 @@ li {
 .button {
   width: 30%;
   align-self: center;
-  background-color: #FA8224;
+  background-color: var(--brand-500);
   border: none;
   border-radius: 30px;
   cursor: pointer;
 }
 
 .button:hover {
-  background-color: #d16716ff;
+  background-color: var(--brand-600);
 }
 
 .subscription-list {

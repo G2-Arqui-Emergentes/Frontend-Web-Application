@@ -327,13 +327,17 @@ export default {
 <style scoped>
 .title-projects {
   font-family: 'Lora', serif;
-  color: #FA8224;
+  color: #b22222;
   font-weight: 600 !important;
   letter-spacing: 1.05px;
   margin-bottom: 16px;
 }
 
 .calendar-page {
+  --brand-500: #b22222;
+  --brand-600: #8f1c1c;
+  --brand-100: rgba(178, 34, 34, 0.1);
+  --brand-50: rgba(178, 34, 34, 0.05);
   min-height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   padding: 2rem;
@@ -347,12 +351,12 @@ export default {
 .calendar-title {
   font-size: 2.5rem;
   font-weight: bold;
-  color: #FA8224;
+  color: var(--brand-500);
   margin: 0 0 0.5rem 0;
 }
 
 .calendar-subtitle {
-  color: #d46f22ff;
+  color: var(--brand-600);
   opacity: 0.7;
   margin: 0;
   font-size: 1.1rem;
@@ -477,13 +481,13 @@ export default {
 }
 
 .calendar-day.selected {
-  background: #FA8224;
+  background: var(--brand-500);
   color: white;
   font-weight: 600;
 }
 
 .calendar-day.today {
-  background: #f7a15fff;
+  background: var(--brand-600);
   color: white;
   font-weight: 600;
 }
@@ -525,7 +529,7 @@ export default {
 }
 
 .selected-date-card {
-  background: linear-gradient(135deg, #FA8224, #606e9bff);
+  background: linear-gradient(135deg, var(--brand-500), #606e9bff);
   border-radius: 1rem;
   padding: 1.5rem;
   color: white;
