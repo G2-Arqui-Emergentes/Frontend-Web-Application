@@ -77,9 +77,9 @@ export default {
       <div class=" flex flex-row align-items-center gap-4">
         <i class="pi pi-bars" @click="handleToggle" style="color: slateblue; font-size: 1.5rem; cursor: pointer"></i>
         <div class="flex flex-row align-items-center gap-3">
-          <img class="block h-2rem w-3rem" src="../assets/ManageWise_logo.png" alt="ManageWise"/>
+          <img class="block h-2rem w-3rem" src="../assets/taskmaster-logo.png" alt="TaskMaster"/>
           <div class="title-container flex flex-column justify-content-center line-height-2" style="gap: 2px">
-            <p class="title font-semibold " style="letter-spacing: 1px;">ManageWise</p>
+            <p class="title font-semibold " style="letter-spacing: 1px;">TaskMaster</p>
             <span class="text-sm capitalize" style="letter-spacing: .8px;">{{ roleLabel }}</span>
           </div>
         </div>
@@ -101,7 +101,7 @@ export default {
           <div class="flex flex-row align-items-center gap-3">
             <p class="text-sm text-green-600 font-normal">{{ user?.companyName }}</p>
             <div class="members-quantity">
-              <i class="pi pi-user mr-2" style="font-size: .8rem; color: #FA8224"></i><span class="text-sm">{{members}}</span>
+              <i class="pi pi-user mr-2 brand-accent-icon" style="font-size: .8rem"></i><span class="text-sm brand-accent-text">{{members}}</span>
             </div>
           </div>
         </div>
@@ -113,10 +113,15 @@ export default {
 <style scoped>
 
 .header {
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+  --brand-500: #b22222;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid #eee;
   position: sticky;
   top: 0;
   z-index: 100;
+  height: 64px;
+  display: flex;
+  align-items: center;
 }
 
 .title-container {
@@ -130,14 +135,42 @@ export default {
 
 .pi-bars {
   display: none;
+  color: #ff4d4f;
 }
 
 .members-quantity span {
-  color: #FA8224;
+  color: var(--brand-500);
 }
+
+.brand-accent-icon,
+.brand-accent-text {
+  color: var(--brand-500);
+}
+
 .user-img, .user-name {
   cursor: pointer;
 }
+
+.user-img {
+  transition: 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(255, 77, 77, 0.2);
+}
+
+.user-name {
+  font-weight: 600;
+  color: #1f2937;
+  transition: 0.2s ease;
+}
+
+.user-name:hover {
+  color: #ff4d4f;
+}
+
 @media (max-width: 1024px) {
 
   .pi-bars {
