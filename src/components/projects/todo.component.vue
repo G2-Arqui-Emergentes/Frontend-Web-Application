@@ -320,6 +320,11 @@ const handleTaskMoved = (updatedTask) => {
 </template>
 <style scoped>
 .board-bg {
+  --brand-500: #b22222;
+  --brand-600: #8f1c1c;
+  --brand-700: #6f1616;
+  --brand-100: rgba(178, 34, 34, 0.1);
+  --brand-50: rgba(178, 34, 34, 0.03);
   min-height: 100vh;
   background: linear-gradient(120deg, #f8fafc 60%, #e6f7f1 100%);
   padding: 0;
@@ -345,7 +350,7 @@ const handleTaskMoved = (updatedTask) => {
 }
 .subtitle {
   font-family: 'Lora', serif;
-  color: #FA8224;
+  color: var(--brand-500);
   font-weight: 700;
   font-size: 1.35rem;
   margin: 0;
@@ -379,7 +384,7 @@ const handleTaskMoved = (updatedTask) => {
   font-family: 'Lora', serif !important;
   font-weight: 700 !important;
   letter-spacing: 1px;
-  color: #FA8224;
+  color: var(--brand-500);
   font-size: 2.2rem;
   margin-bottom: 0.2rem;
 }
@@ -403,7 +408,7 @@ const handleTaskMoved = (updatedTask) => {
   gap: 0.4rem;
 }
 .add-task.modern {
-  background: linear-gradient(135deg, #FA8224, #606e9bff);
+  background: linear-gradient(135deg, var(--brand-500), #606e9bff);
   color: #fff;
   border-radius: 0.8rem;
   font-weight: 700;
@@ -418,7 +423,7 @@ const handleTaskMoved = (updatedTask) => {
 }
 .add-task.modern:hover,
 .add-task.modern:focus {
-  background: linear-gradient(135deg, #c46116ff, #475583ff);
+  background: linear-gradient(135deg, var(--brand-600), #475583ff);
   box-shadow: 0 4px 16px 0 rgba(2,81,61,0.13);
 }
 .columns-board {
@@ -447,7 +452,7 @@ const handleTaskMoved = (updatedTask) => {
 .loader-modern {
   text-align: center;
   margin: 2.5rem 0;
-  color: #cf844aff;
+  color: var(--brand-600);
   font-size: 1.2rem;
   font-weight: 600;
   letter-spacing: 0.5px;
@@ -534,12 +539,12 @@ const handleTaskMoved = (updatedTask) => {
 .header-icon-wrapper {
   width: 52px;
   height: 52px;
-  background: linear-gradient(135deg, #FA8224, #ff9d4d);
+  background: linear-gradient(135deg, var(--brand-500), var(--brand-600));
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(250, 130, 36, 0.25);
+  box-shadow: 0 4px 12px rgba(178, 34, 34, 0.25);
   flex-shrink: 0;
 }
 
@@ -557,7 +562,7 @@ const handleTaskMoved = (updatedTask) => {
   font-family: 'Lora', serif;
   font-size: 1.85rem;
   font-weight: 700;
-  color: #FA8224;
+  color: var(--brand-500);
   margin: 0 0 0.4rem 0;
   letter-spacing: 0.3px;
 }
@@ -594,12 +599,12 @@ const handleTaskMoved = (updatedTask) => {
 }
 
 .field-label i {
-  color: #FA8224;
+  color: var(--brand-500);
   font-size: 0.95rem;
 }
 
 .required-star {
-  color: #FA8224;
+  color: var(--brand-500);
   font-weight: 700;
   margin-left: 0.15rem;
 }
@@ -619,8 +624,8 @@ const handleTaskMoved = (updatedTask) => {
 .field-input:focus,
 .field-dropdown:focus,
 .field-calendar:focus {
-  border-color: #FA8224;
-  box-shadow: 0 0 0 3px rgba(250, 130, 36, 0.1);
+  border-color: var(--brand-500);
+  box-shadow: 0 0 0 3px var(--brand-100);
   outline: none;
 }
 
@@ -633,7 +638,7 @@ const handleTaskMoved = (updatedTask) => {
 }
 
 :deep(.field-dropdown .p-dropdown-trigger) {
-  color: #FA8224;
+  color: var(--brand-500);
 }
 
 :deep(.field-calendar input) {
@@ -643,7 +648,7 @@ const handleTaskMoved = (updatedTask) => {
 }
 
 :deep(.field-calendar .p-datepicker-trigger) {
-  color: #FA8224;
+  color: var(--brand-500);
 }
 
 .form-actions {
@@ -678,16 +683,16 @@ const handleTaskMoved = (updatedTask) => {
   font-size: 1rem;
   font-weight: 700;
   border-radius: 0.7rem;
-  background: linear-gradient(135deg, #FA8224, #ff9d4d);
+  background: linear-gradient(135deg, var(--brand-500), var(--brand-600));
   border: none;
   color: #fff;
-  box-shadow: 0 4px 12px rgba(250, 130, 36, 0.25);
+  box-shadow: 0 4px 12px rgba(178, 34, 34, 0.25);
   transition: all 0.2s ease;
 }
 
 .btn-submit:hover {
-  background: linear-gradient(135deg, #e8751f, #f08a3d);
-  box-shadow: 0 6px 16px rgba(250, 130, 36, 0.35);
+  background: linear-gradient(135deg, var(--brand-600), var(--brand-700));
+  box-shadow: 0 6px 16px rgba(178, 34, 34, 0.35);
   transform: translateY(-1px);
 }
 
